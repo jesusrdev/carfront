@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Carlist from "./components/Carlist";
 
 const darkTheme = createTheme({
   // palette: {
@@ -33,7 +34,9 @@ function App() {
             <Typography variant="h6">Car Shop</Typography>
           </Toolbar>
         </AppBar>
-        <QueryClientProvider client={queryClient}></QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <Carlist />
+        </QueryClientProvider>
       </Container>
     </ThemeProvider>
   );
