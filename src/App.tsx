@@ -7,6 +7,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const darkTheme = createTheme({
   // palette: {
@@ -20,6 +21,8 @@ const darkTheme = createTheme({
   },
 });
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
@@ -30,6 +33,7 @@ function App() {
             <Typography variant="h6">Car Shop</Typography>
           </Toolbar>
         </AppBar>
+        <QueryClientProvider client={queryClient}></QueryClientProvider>
       </Container>
     </ThemeProvider>
   );
