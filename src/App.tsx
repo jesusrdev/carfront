@@ -11,12 +11,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Carlist from "./components/Carlist";
 
 const darkTheme = createTheme({
-  // palette: {
-  //   mode: "dark",
-  //   primary: {
-  //     main: '#ff5252',
-  //   },
-  // },
   colorSchemes: {
     dark: true,
   },
