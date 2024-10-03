@@ -1,8 +1,11 @@
 import { deleteCar, getCars } from "../api/carapi";
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { DataGrid, GridColDef, GridCellParams } from "@mui/x-data-grid";
+import { useState } from "react";
+import { Snackbar } from "@mui/material";
 
 export default function Carlist() {
+  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data, error, isSuccess } = useQuery({
@@ -13,6 +16,7 @@ export default function Carlist() {
   const { mutate } = useMutation({
     mutationFn: deleteCar,
     onSuccess: () => {
+      setOpen(true);
       // To refetch the cars, we need to invalidate the query
       queryClient.invalidateQueries({ queryKey: ["cars"] });
     },
@@ -51,12 +55,20 @@ export default function Carlist() {
     return <div>Error when fetching cars...</div>;
   } else {
     return (
-      <DataGrid
-        rows={data}
-        columns={columns}
-        disableRowSelectionOnClick={true}
-        getRowId={(row) => row._links.self.href}
-      />
+      <>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          disableRowSelectionOnClick={true}
+          getRowId={(row) => row._links.self.href}
+        />
+        <Snackbar
+          open={open}
+          autoHideDuration={2000}
+          onClose={() => setOpen(false)}
+          message="Car deleted"
+        />
+      </>
     );
   }
 
