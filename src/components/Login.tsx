@@ -9,11 +9,12 @@ type user = {
 };
 
 export default function Login() {
+  const token = sessionStorage.getItem("jwt");
   const [user, setUser] = useState<user>({
     username: "",
     password: "",
   });
-  const [isAuthenticated, setAuth] = useState(false);
+  const [isAuthenticated, setAuth] = useState(token && token !== "");
 
   const [open, setOpen] = useState(false);
 
@@ -35,6 +36,10 @@ export default function Login() {
         const jwtToken = res.headers.authorization;
         if (jwtToken !== null) {
           sessionStorage.setItem("jwt", jwtToken);
+          setUser({
+            username: "",
+            password: "",
+          });
           setAuth(true);
         }
       })
@@ -43,8 +48,13 @@ export default function Login() {
       });
   };
 
+  const handleLogout = () => {
+    setAuth(false);
+    sessionStorage.setItem("jwt", "");
+  }
+
   if (isAuthenticated) {
-    return <Carlist />;
+    return <Carlist logOut={handleLogout} />;
   }
 
   return (
